@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 文件输出格式 -->
+    <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n"/>
+    <!-- 日志文件路径 -->
+    <property name="LOG_FILE_PATH" value="D:/work/Logs"/>
+    <!-- 日志文件名 -->
+    <property name="FILE_NAME" scope="context" value="kingspringboot" />
+
+    <!-- 控制台 -->
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <root level="info">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+        <!-- dubug日志 -->
+        <appender name="file_debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <append>true</append>
+            <prudent>false</prudent>
+            <!-- 文件路径 -->
+            <file>${LOG_FILE_PATH}/${FILE_NAME}-debug.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE_PATH}/${FILE_NAME}-DEBUG.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>debug</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+        </appender>
+
+        <!-- info日志 -->
+        <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <append>true</append>
+            <prudent>false</prudent>
+            <!-- 文件路径 -->
+            <file>${LOG_FILE_PATH}/${FILE_NAME}-info.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE_PATH}/${FILE_NAME}-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>info</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+        </appender>
+
+        <!-- error日志 -->
+        <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <append>true</append>
+            <prudent>false</prudent>
+            <!-- 文件路径 -->
+            <file>${LOG_FILE_PATH}/${FILE_NAME}-error.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE_PATH}/${FILE_NAME}-ERROR.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>error</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="file_debug" />
+            <appender-ref ref="file_info" />
+            <appender-ref ref="file_error" />
+        </root>
+    </springProfile>
+
+</configuration>

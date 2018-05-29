@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.king.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.king.entity.UserInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="age" jdbcType="VARCHAR" property="age"/>
+        <result column="sex" jdbcType="CHAR" property="sex"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <sql id="BaseColumn">
+        id,user_name,password,token,age,sex,create_time
+    </sql>
+    
+    <sql id="BaseQuery">
+        <if test="userName != null and userName != ''">AND user_name = #{userName}</if>
+        <if test="password != null and password != ''">AND password = #{password}</if>
+        <if test="token != null and token != ''">AND token = #{token}</if>
+        <if test="age != null and age != ''">AND age = #{age}</if>
+        <if test="sex != null and sex != ''">AND sex = #{sex}</if>
+    </sql>
+
+    <select id="queryUserByPage" parameterType="com.king.entity.UserInfo" resultMap="BaseResultMap">
+        select 
+        <include refid="BaseColumn"/>
+        from t_user_info
+        WHERE 1=1
+        <include refid="BaseQuery"/>
+        ORDER BY id DESC
+    </select>
+
+</mapper>
