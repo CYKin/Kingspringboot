@@ -1,3 +1,5 @@
+package com.king;
+
 import org.springframework.util.FileCopyUtils;
 
 import java.io.*;
